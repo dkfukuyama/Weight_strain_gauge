@@ -1,0 +1,5 @@
+*.pyc
+
+BUILD/
+
+.temp/tools/.hg/
