@@ -1,3 +1,3 @@
 cd $PSScriptRoot
 
-mbed compile -v
+mbed compile -v 

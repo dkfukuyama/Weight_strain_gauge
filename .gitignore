@@ -5,3 +5,5 @@ BUILD/
 .temp/tools/.hg/
 
 .vs/
+
+Debug/
