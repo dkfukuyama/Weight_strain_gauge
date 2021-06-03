@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{1EAD7C73-2C6D-4581-AE32-D730E223BBAF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>pwsh _strain_guage_build.ps1 Debug</NMakeBuildCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions);WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__CORTEX_M0;CMSIS_VECTAB_VIRTUAL;__MBED__=1;DEVICE_I2CSLAVE=1;TARGET_LIKE_MBED;TARGET_NXP;DEVICE_PORTINOUT=1;__MBED_CMSIS_RTOS_CM;__CMSIS_RTOS;TARGET_LPC11UXX;TOOLCHAIN_GCC;TARGET_LIKE_CORTEX_M0;ARM_MATH_CM0;TARGET_M0;DEVICE_SERIAL=1;TARGET_MCU_LPC11U35_501;DEVICE_INTERRUPTIN=1;TARGET_LPCTarget;TARGET_CORTEX;DEVICE_I2C=1;DEVICE_PORTOUT=1;TARGET_LPC11U35_501;DEVICE_PORTIN=1;TARGET_RELEASE;MBED_BUILD_TIMESTAMP=1621400176.48;DEVICE_SLEEP=1;TOOLCHAIN_GCC_ARM;DEVICE_SPI=1;CMSIS_VECTAB_VIRTUAL_HEADER_FILE="cmsis_nvic.h";DEVICE_SPISLAVE=1;DEVICE_ANALOGIN=1;DEVICE_PWMOUT=1;TARGET_CORTEX_M</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>./mbed/65be27845400/;./mbed/65be27845400/TARGET_LPC11U35_501/TOOLCHAIN_GCC_ARM;./USBDevice/USBSerial;./USBDevice/targets/TARGET_NXP</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>_strain_guage_build.ps1 Debug</NMakeBuildCommandLine>
+    <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>_strain_guage_build.ps1 Release</NMakeBuildCommandLine>
+    <NMakeOutput>strain_guage.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions);WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__CORTEX_M0;CMSIS_VECTAB_VIRTUAL;__MBED__=1;DEVICE_I2CSLAVE=1;TARGET_LIKE_MBED;TARGET_NXP;DEVICE_PORTINOUT=1;__MBED_CMSIS_RTOS_CM;__CMSIS_RTOS;TARGET_LPC11UXX;TOOLCHAIN_GCC;TARGET_LIKE_CORTEX_M0;ARM_MATH_CM0;TARGET_M0;DEVICE_SERIAL=1;TARGET_MCU_LPC11U35_501;DEVICE_INTERRUPTIN=1;TARGET_LPCTarget;TARGET_CORTEX;DEVICE_I2C=1;DEVICE_PORTOUT=1;TARGET_LPC11U35_501;DEVICE_PORTIN=1;TARGET_RELEASE;MBED_BUILD_TIMESTAMP=1621400176.48;DEVICE_SLEEP=1;TOOLCHAIN_GCC_ARM;DEVICE_SPI=1;CMSIS_VECTAB_VIRTUAL_HEADER_FILE="cmsis_nvic.h";DEVICE_SPISLAVE=1;DEVICE_ANALOGIN=1;DEVICE_PWMOUT=1;TARGET_CORTEX_M</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>./mbed/65be27845400/;./mbed/65be27845400/TARGET_LPC11U35_501/TOOLCHAIN_GCC_ARM;./USBDevice/USBSerial;./USBDevice/targets/TARGET_NXP</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>_strain_guage_build.ps1 Release</NMakeBuildCommandLine>
+    <NMakeOutput>strain_guage.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build.ps1" />
+    <None Include="write.ps1" />
+    <None Include="_strain_guage_build.ps1" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

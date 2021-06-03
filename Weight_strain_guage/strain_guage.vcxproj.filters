@@ -20,6 +20,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.gitignore" />
+    <None Include="_strain_guage_build.ps1" />
+    <None Include="build.ps1" />
+    <None Include="write.ps1" />
   </ItemGroup>
 </Project>
