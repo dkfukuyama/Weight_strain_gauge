@@ -6,14 +6,14 @@ USBSerial  usb(0x1f00, 0x2012, 0x0001, false);
 
 #define DT (int)(LPC_GPIO->W0[19]&1)
 
-constexpr unsigned int StoreLength = 50;
+const int StoreLength = 20;
 int StorePointerA = 0;
 int StorePointerB = 0;
 int StoreCounterA = 0;
 int StoreCounterB = 0;
 int GetValue_StoreA[StoreLength];
 int GetValue_StoreB[StoreLength];
-constexpr int SckReadMax = 24;
+const int SckReadMax = 24;
 
 inline void InitialConfig() {
 
@@ -38,6 +38,8 @@ inline void InitialConfig() {
 void PrintGetValResults() {
     int sum_a = 0;
     int sum_b = 0;
+
+
     if (StoreCounterA > StoreLength && StoreCounterB > StoreLength) {
         for (int i = 0; i < StoreLength; i++) {
             sum_a += GetValue_StoreA[i];
@@ -47,10 +49,11 @@ void PrintGetValResults() {
         sum_b /= StoreLength;
 
         usb.printf("Results A = %08d / B = %08d\r\n", sum_a, sum_b);
+
+        StoreCounterA = 0;
+        StoreCounterB = 0;
     }
 
-    StoreCounterA = 0;
-    StoreCounterB = 0;
 }
 
 
@@ -63,8 +66,9 @@ enum NextConversion {
 
 
 inline int Convert(int inp) {
-    constexpr int Conversion_Const = (1 << 24);
-    return inp ^ Conversion_Const - Conversion_Const;
+    constexpr int Conversion_Const = (1 << 23);
+
+    return (int)(inp ^ Conversion_Const) - Conversion_Const;
 }
 
 int GetValue(enum NextConversion nc) {
@@ -91,16 +95,19 @@ int GetValue(enum NextConversion nc) {
         wait_us(3);
     }
 
+    read_s = Convert(read_s, 0);
     switch (NextCon) {
         case A_Gain128:
         case A_Gain64:
-            GetValue_StoreA[++StorePointerA];
-            StorePointerA %= StoreLength;
+            StorePointerA = (StorePointerA + 1) % StoreLength;
+            GetValue_StoreA[StorePointerA] = read_s;
+            //usb.printf("A   ");
             StoreCounterA ++;
             break;
         case B_Gain32:
-            GetValue_StoreB[++StorePointerA];
-            StorePointerB %= StoreLength;
+            StorePointerB = (StorePointerB + 1) % StoreLength;
+            GetValue_StoreB[StorePointerB] = read_s;
+            //usb.printf("B   ");
             StoreCounterB++;
             break;
         default:
@@ -108,9 +115,14 @@ int GetValue(enum NextConversion nc) {
             // NOP
             break;
     }
+
+    //usb.printf("%u", read);
+    //usb.printf("-------    %d\r\n", read_s);
+
     __enable_irq();
     NextCon = nc;
-    return Convert(read_s);
+   
+    return read_s;
 }
 
 int main(void)
@@ -129,11 +141,14 @@ int main(void)
     usb.printf("-------------------------------------\r\n");
 
     Ticker t;
-    t.attach(&PrintGetValResults, 1.0f);
+    t.attach(&PrintGetValResults, 0.1f);
     
-    for(;;){
-        GetValue(NextConversion::B_Gain32);
+    for(int i=0;;i++){
+        i%=40;
+        i<20 ?
+        GetValue(NextConversion::B_Gain32)
+        :
         GetValue(NextConversion::A_Gain128);
-    }
+   }
     return 0;
 }
