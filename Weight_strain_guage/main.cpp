@@ -2,11 +2,12 @@
 
 #include "USBSerial.h"
 
-USBSerial  usb(0x1f00, 0x2012, 0x0001, false);
+USBSerial usb(0x1f00, 0x2012, 0x0001, false);
+Serial pc(P0_19, P0_18);
 
-#define DT (int)(LPC_GPIO->W0[19]&1)
+#define DT (int)(LPC_GPIO->W1[19]&1)
 
-const int StoreLength = 20;
+const int StoreLength = 3;
 int StorePointerA = 0;
 int StorePointerB = 0;
 int StoreCounterA = 0;
@@ -26,9 +27,9 @@ inline void InitialConfig() {
     LPC_GPIO->DIR[0] |= (1 << 17); // OUTPUT
 
     // ì¸óÕê›íË
-    LPC_IOCON->PIO0_19 = 0;
-    LPC_IOCON->PIO0_19 |= (1 << 5); // HYS
-    LPC_GPIO->DIR[0] &= ~(1 << 19); // INPUT
+    LPC_IOCON->PIO1_19 = 0;
+    LPC_IOCON->PIO1_19 |= (1 << 5); // HYS
+    LPC_GPIO->DIR[1] &= ~(1 << 19); // INPUT
 
     // îzóÒÇÉ[ÉçÇ≈èâä˙âª
     memset(GetValue_StoreA, 0, sizeof(GetValue_StoreA));
@@ -40,7 +41,7 @@ void PrintGetValResults() {
     int sum_b = 0;
 
 
-    if (StoreCounterA > StoreLength && StoreCounterB > StoreLength) {
+    if (StoreCounterA > StoreLength /*&& StoreCounterB > StoreLength*/) {
         for (int i = 0; i < StoreLength; i++) {
             sum_a += GetValue_StoreA[i];
             sum_b += GetValue_StoreB[i];
@@ -48,7 +49,8 @@ void PrintGetValResults() {
         sum_a /= StoreLength;
         sum_b /= StoreLength;
 
-        usb.printf("Results A = %08d / B = %08d\r\n", sum_a, sum_b);
+        pc.printf("PC Results A = %08d / B = %08d\r\n", sum_a, sum_b);
+        usb.printf("USB Results A = %08d / B = %08d\r\n", sum_a, sum_b);
 
         StoreCounterA = 0;
         StoreCounterB = 0;
@@ -95,7 +97,7 @@ int GetValue(enum NextConversion nc) {
         wait_us(3);
     }
 
-    read_s = Convert(read_s, 0);
+    read_s = Convert(read_s);
     switch (NextCon) {
         case A_Gain128:
         case A_Gain64:
@@ -130,25 +132,32 @@ int main(void)
     InitialConfig();
 
     int wait_count = 0;
+ 
+    
     while(!usb.connected()){
         wait_ms(100);
         wait_count++;
         if (wait_count > 20) break; // 2ïbë“Ç¡ÇƒÅAUSBê⁄ë±Ç™Ç»ÇØÇÍÇŒéüÇ…êiÇﬁ
     };
+    
 
-    usb.printf("-------------------------------------\r\n");
+    pc.baud(115200);
+    pc.printf("-------------------------------------\r\n");
+    pc.printf("SYSTEM START\r\n");
+    pc.printf("-------------------------------------\r\n");
+
+    wait_ms(2000);
     usb.printf("SYSTEM START\r\n");
-    usb.printf("-------------------------------------\r\n");
 
     Ticker t;
     t.attach(&PrintGetValResults, 0.1f);
     
     for(int i=0;;i++){
-        i%=40;
-        i<20 ?
-        GetValue(NextConversion::B_Gain32)
-        :
         GetValue(NextConversion::A_Gain128);
+        continue;
+        i%=6;
+        i<3 ?
+        GetValue(NextConversion::B_Gain32):GetValue(NextConversion::A_Gain128);
    }
     return 0;
 }
